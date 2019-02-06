@@ -7,7 +7,7 @@
   <version>1.0.0</version>
   <packaging>kjar</packaging>
   <name>ccd-project</name>
-  <description></description>
+  <description>Credit Card Dispute Automation project</description>
   <dependencies>
     <dependency>
       <groupId>com.thoughtworks.xstream</groupId>

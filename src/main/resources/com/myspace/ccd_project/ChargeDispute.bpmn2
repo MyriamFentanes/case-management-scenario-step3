@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/bpmn20" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:drools="http://www.jboss.org/drools" id="_VoKSwPleEei0FtRorZThLQ" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd" exporter="jBPM Designer" exporterVersion="1.0" expressionLanguage="http://www.mvel.org/2.0" targetNamespace="http://www.omg.org/bpmn20" typeLanguage="http://www.java.com/javaTypes">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/bpmn20" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:drools="http://www.jboss.org/drools" id="_eYO08CmoEemhZa31eBtbzg" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd" exporter="jBPM Designer" exporterVersion="1.0" expressionLanguage="http://www.mvel.org/2.0" targetNamespace="http://www.omg.org/bpmn20" typeLanguage="http://www.java.com/javaTypes">
   <bpmn2:itemDefinition id="_caseFile_customerStatusItem" structureRef="String"/>
-  <bpmn2:itemDefinition id="_caseFile_totalFraudAmountItem" structureRef="Float"/>
+  <bpmn2:itemDefinition id="_caseFile_totalFraudAmountItem" structureRef="String"/>
   <bpmn2:itemDefinition id="_caseFile_fraudDataItem" structureRef="com.myspace.ccd_project.FraudData"/>
   <bpmn2:itemDefinition id="_caseFile_approvedChargebackItem" structureRef="Boolean"/>
   <bpmn2:itemDefinition id="_caseFile_customerAgeItem" structureRef="Integer"/>
@@ -11,7 +11,20 @@
   <bpmn2:itemDefinition id="_caseFile_managerReasonItem" structureRef="String"/>
   <bpmn2:itemDefinition id="_caseFile_customerDocCompletedItem" structureRef="Boolean"/>
   <bpmn2:itemDefinition id="_caseFile_vendorDocCompletedItem" structureRef="Boolean"/>
-  <bpmn2:process id="src.ChargeDispute" drools:packageName="com.myspace.ccd_project" drools:version="1.0" name="ChargeDispute" isExecutable="true">
+  <bpmn2:itemDefinition id="_caseFile_vendorDocItem" structureRef="org.jbpm.document.Document"/>
+  <bpmn2:itemDefinition id="_caseFile_customerDocItem" structureRef="org.jbpm.document.Document"/>
+  <bpmn2:itemDefinition id="_caseFile_vendorDocRequiredItem" structureRef="Boolean"/>
+  <bpmn2:itemDefinition id="_caseFile_managerApprovalReasonItem" structureRef="String"/>
+  <bpmn2:itemDefinition id="_caseFile_caseTypeItem" structureRef="String"/>
+  <bpmn2:process id="src.ChargeDispute" drools:adHoc="true" drools:packageName="com.myspace.ccd_project" drools:version="1.0" name="ChargeDispute" isExecutable="true">
+    <bpmn2:extensionElements>
+      <drools:metaData name="customCaseIdPrefix">
+        <drools:metaValue><![CDATA[CASE]]></drools:metaValue>
+      </drools:metaData>
+      <drools:metaData name="customCaseRoles">
+        <drools:metaValue><![CDATA[owner:1,approval-manager:1]]></drools:metaValue>
+      </drools:metaData>
+    </bpmn2:extensionElements>
     <bpmn2:property id="caseFile_customerStatus" itemSubjectRef="_caseFile_customerStatusItem"/>
     <bpmn2:property id="caseFile_totalFraudAmount" itemSubjectRef="_caseFile_totalFraudAmountItem"/>
     <bpmn2:property id="caseFile_fraudData" itemSubjectRef="_caseFile_fraudDataItem"/>
@@ -23,42 +36,24 @@
     <bpmn2:property id="caseFile_managerReason" itemSubjectRef="_caseFile_managerReasonItem"/>
     <bpmn2:property id="caseFile_customerDocCompleted" itemSubjectRef="_caseFile_customerDocCompletedItem"/>
     <bpmn2:property id="caseFile_vendorDocCompleted" itemSubjectRef="_caseFile_vendorDocCompletedItem"/>
-    <bpmn2:startEvent id="processStartEvent" drools:selectable="true" color:background-color="#9acd32" color:border-color="#000000" color:color="#000000" name="">
-      <bpmn2:extensionElements>
-        <drools:metaData name="elementname">
-          <drools:metaValue><![CDATA[]]></drools:metaValue>
-        </drools:metaData>
-      </bpmn2:extensionElements>
-    </bpmn2:startEvent>
+    <bpmn2:property id="caseFile_vendorDoc" itemSubjectRef="_caseFile_vendorDocItem"/>
+    <bpmn2:property id="caseFile_customerDoc" itemSubjectRef="_caseFile_customerDocItem"/>
+    <bpmn2:property id="caseFile_vendorDocRequired" itemSubjectRef="_caseFile_vendorDocRequiredItem"/>
+    <bpmn2:property id="caseFile_managerApprovalReason" itemSubjectRef="_caseFile_managerApprovalReasonItem"/>
+    <bpmn2:property id="caseFile_caseType" itemSubjectRef="_caseFile_caseTypeItem"/>
   </bpmn2:process>
-  <bpmndi:BPMNDiagram id="_VoKSwfleEei0FtRorZThLQ">
-    <bpmndi:BPMNPlane id="_VoKSwvleEei0FtRorZThLQ" bpmnElement="src.ChargeDispute">
-      <bpmndi:BPMNShape id="_VoKSw_leEei0FtRorZThLQ" bpmnElement="processStartEvent">
-        <dc:Bounds height="30.0" width="30.0" x="120.0" y="165.0"/>
-      </bpmndi:BPMNShape>
-    </bpmndi:BPMNPlane>
+  <bpmndi:BPMNDiagram id="_eYO08SmoEemhZa31eBtbzg">
+    <bpmndi:BPMNPlane id="_eYO08imoEemhZa31eBtbzg" bpmnElement="src.ChargeDispute"/>
   </bpmndi:BPMNDiagram>
-  <bpmn2:relationship id="_VoKSxPleEei0FtRorZThLQ" type="BPSimData">
+  <bpmn2:relationship id="_eYO08ymoEemhZa31eBtbzg" type="BPSimData">
     <bpmn2:extensionElements>
       <bpsim:BPSimData>
         <bpsim:Scenario xsi:type="bpsim:Scenario" id="default" name="Simulationscenario">
           <bpsim:ScenarioParameters xsi:type="bpsim:ScenarioParameters" baseTimeUnit="min"/>
-          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" elementRef="processStartEvent" id="_VoKSxfleEei0FtRorZThLQ">
-            <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
-              <bpsim:ProcessingTime xsi:type="bpsim:Parameter">
-                <bpsim:UniformDistribution max="10.0" min="5.0"/>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
-            <bpsim:ControlParameters xsi:type="bpsim:ControlParameters">
-              <bpsim:Probability xsi:type="bpsim:Parameter">
-                <bpsim:FloatingParameter value="100.0"/>
-              </bpsim:Probability>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn2:extensionElements>
-    <bpmn2:source>_VoKSwPleEei0FtRorZThLQ</bpmn2:source>
-    <bpmn2:target>_VoKSwPleEei0FtRorZThLQ</bpmn2:target>
+    <bpmn2:source>_eYO08CmoEemhZa31eBtbzg</bpmn2:source>
+    <bpmn2:target>_eYO08CmoEemhZa31eBtbzg</bpmn2:target>
   </bpmn2:relationship>
 </bpmn2:definitions>
